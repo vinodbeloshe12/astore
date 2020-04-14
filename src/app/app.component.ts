@@ -11,6 +11,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
   isMenuOpen: boolean = false;
+  menuImg = "assets/img/menu.png";
+
 
   constructor(
     private platform: Platform,
@@ -31,8 +33,10 @@ export class AppComponent {
     this.isMenuOpen = !this.isMenuOpen;
     if (this.isMenuOpen) {
       document.body.classList.add('sidemenu-open', 'menuactive');
+      this.menuImg = "assets/img/close.png";
     } else {
       document.body.classList.remove('sidemenu-open', 'menuactive');
+      this.menuImg = "assets/img/menu.png";
     }
   }
 }
