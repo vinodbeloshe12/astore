@@ -1,7 +1,7 @@
 <ion-app>
-  <app-header></app-header>
+  <app-header *ngIf="showHeader"></app-header>
   <div class="wrapper">
-    <div class="header">
+    <div *ngIf="showHeader" class="header">
       <div class="row no-gutters">
         <div class="col-auto">
           <button (click)="openMenu()" class="btn  btn-link text-dark menu-btn"><img src="{{menuImg}}" alt=""><span
@@ -17,32 +17,38 @@
     </div>
     <ion-router-outlet></ion-router-outlet>
 
-    <div class="footer">
+    <div *ngIf="showHeader" class="footer">
       <div class="no-gutters">
         <div class="col-auto mx-auto">
           <div class="row no-gutters justify-content-center">
             <div class="col-auto">
-              <a routerLink="/home" class="btn btn-link-default active">
+              <a (click)="changeRoute('home')" class="btn btn-link-default"
+                [ngClass]="selectedMenu=='home'?'active':''">
                 <i class="material-icons">store_mall_directory</i>
               </a>
             </div>
             <div class="col-auto">
-              <a class="btn btn-link-default">
+              <a (click)="changeRoute('orders')" class="btn btn-link-default"
+                [ngClass]="selectedMenu=='orders'?'active':''">
                 <i class="material-icons">insert_chart_outline</i>
               </a>
             </div>
             <div class="col-auto">
-              <a routerLink="/cart" class="btn btn-default shadow centerbutton">
+              <a (click)="changeRoute('cart')" [ngClass]="selectedMenu=='cart'?'active':''"
+                class="btn btn-default shadow centerbutton">
                 <i class="material-icons">local_mall</i>
+                <span class="cart_counter">2</span>
               </a>
             </div>
             <div class="col-auto">
-              <a class="btn btn-link-default">
+              <a (click)="changeRoute('whishlist')" class="btn btn-link-default"
+                [ngClass]="selectedMenu=='whishlist'?'active':''">
                 <i class="material-icons">favorite</i>
               </a>
             </div>
             <div class="col-auto">
-              <a class="btn btn-link-default">
+              <a (click)="changeRoute('profile')" class="btn btn-link-default"
+                [ngClass]="selectedMenu=='profile'?'active':''">
                 <i class="material-icons">account_circle</i>
               </a>
             </div>
