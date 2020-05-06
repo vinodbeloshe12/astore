@@ -4,26 +4,28 @@
       <div class="subtitle h6">
         <div class="d-inline-block">
           My Cart<br>
-          <p class="small text-mute">2 Items</p>
+          <p class="small text-mute">{{cartItems}} {{cartItems==1?'Item':'Items'}}</p>
         </div>
       </div>
 
       <div class="row">
         <div class="col-12 px-0">
-          <ul class="list-group list-group-flush mb-4">
-            <li class="list-group-item">
+          <ul *ngIf="cartData && cartData.length>0" class="list-group list-group-flush mb-4">
+            <li *ngFor="let data of cartData" class="list-group-item">
               <div class="row">
                 <div class="col-auto align-self-center">
-                  <button class="btn btn-sm btn-link p-0 float-right"><i
+                  <button (click)="remove(data)" class="btn btn-sm btn-link p-0 float-right"><i
                       class="material-icons">remove_circle</i></button>
                 </div>
                 <div class="col-2 pl-0 align-self-center">
-                  <figure class="product-image h-auto"><img src="assets/img/shegdane.png" alt="" class="vm"></figure>
+                  <figure class="product-image h-auto"><img src="{{imageUrl}}{{data.image}}" alt="" class="vm">
+                  </figure>
                 </div>
                 <div class="col px-0">
-                  <a href="#" class="text-dark mb-1 h6 d-block">शेंगदाणे </a>
-                  <h5 class="text-success font-weight-normal mb-0">₹ 140<sup>.00</sup></h5>
-                  <p class="text-secondary small text-mute mb-0">1.0 kg <span class=" text-success ml-2">10% off</span>
+                  <a href="#" class="text-dark mb-1 h6 d-block">{{data.name}} </a>
+                  <h5 class="text-success font-weight-normal mb-0">{{data.price | currency:"₹"}}</h5>
+                  <p class="text-secondary small text-mute mb-0">{{data.price_per}} {{data.unit}} <span
+                      class=" text-success ml-2">{{data.discount}}% off</span>
                   </p>
                 </div>
                 <div class="col-auto align-self-center">
@@ -32,36 +34,7 @@
                       <button class="btn btn-light-grey px-1" type="button"><i
                           class="material-icons">remove</i></button>
                     </div>
-                    <input type="text" class="form-control w-35" placeholder="" value="1">
-                    <div class="input-group-append">
-                      <button class="btn btn-light-grey px-1" type="button"><i class="material-icons">add</i></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="list-group-item">
-              <div class="row">
-                <div class="col-auto align-self-center">
-                  <button class="btn btn-sm btn-link p-0 float-right"><i
-                      class="material-icons">remove_circle</i></button>
-                </div>
-                <div class="col-2 pl-0 align-self-center">
-                  <figure class="product-image h-auto"><img src="assets/img/toordal.png" alt="" class="vm"></figure>
-                </div>
-                <div class="col px-0">
-                  <a routerLink="/home" class="text-dark mb-1 h6 d-block">तूर डाळ </a>
-                  <h5 class="text-success font-weight-normal mb-0">₹ 98<sup>.00</sup></h5>
-                  <p class="text-secondary small text-mute mb-0">1.0 kg <span class=" text-success ml-2">10% off</span>
-                  </p>
-                </div>
-                <div class="col-auto align-self-center">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <button class="btn btn-light-grey px-1" type="button"><i
-                          class="material-icons">remove</i></button>
-                    </div>
-                    <input type="text" class="form-control w-35" placeholder="" value="1">
+                    <input type="text" class="form-control w-35" placeholder="" [(ngModel)]="data.quantity">
                     <div class="input-group-append">
                       <button class="btn btn-light-grey px-1" type="button"><i class="material-icons">add</i></button>
                     </div>
@@ -70,6 +43,12 @@
               </div>
             </li>
 
+          </ul>
+
+          <ul class="list-group list-group-flush mb-4 text-center" *ngIf="cartData && cartData.length==0">
+            <li class="list-group-item p-3">
+              Your cart is empty.
+            </li>
           </ul>
         </div>
       </div>
@@ -99,11 +78,11 @@
           <div class="row ">
             <div class="col-4">
               <p class="text-secondary mb-1 small">Sub Total</p>
-              <h5 class="mb-0">₹242.00</h5>
+              <h5 class="mb-0">{{cartTotal | currency:"₹"}}</h5>
             </div>
             <div class="col-4 text-center">
               <p class="text-secondary mb-1 small">Delivery Charges</p>
-              <h5 class="mb-0">₹30.00</h5>
+              <h5 class="mb-0">{{deliveryCharge | currency:"₹"}}</h5>
             </div>
             <div class="col-4 text-right">
               <p class="text-secondary mb-1 small">Discount</p>
@@ -116,13 +95,23 @@
       <div class="card mb-4 border-0 shadow-sm border-top-dashed">
         <div class="card-body text-center">
           <p class="text-secondary my-1">Net Payable</p>
-          <h3 class="mb-0">₹272.00</h3>
+          <h3 class="mb-0">{{cartTotal+deliveryCharge | currency:"₹"}}</h3>
           <br>
-          <ion-item lines="full" (click)="shareViaWhatsapp()">Share Via Whatsapp</ion-item>
-          <br>
-          <a routerLink="/checkout"
-            class="btn btn-lg btn-default text-white btn-block btn-rounded shadow"><span>Checkout</span><i
-              class="material-icons">arrow_forward</i></a>
+          <div class="col-12">
+            <div class="row">
+
+              <div class="col-2">
+                <img (click)="shareViaWhatsapp()" src="assets/img/whatsapp.png" class="wa" alt="">
+                <!-- <ion-item lines="full" (click)="shareViaWhatsapp()">Share Via Whatsapp</ion-item> -->
+              </div>
+              <div class="col-10">
+                <a routerLink="/checkout"
+                  class="btn btn-lg btn-default text-white btn-block btn-rounded shadow"><span>Checkout</span><i
+                    class="material-icons">arrow_forward</i></a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 

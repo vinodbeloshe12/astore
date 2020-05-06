@@ -15,8 +15,33 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  otpData: any = {};
-  loginSteps: number = 2;
+  otpData: any = [
+    {
+      'name': 'one',
+      'model': ''
+    },
+    {
+      'name': 'two',
+      'model': ''
+    },
+    {
+      'name': 'three',
+      'model': ''
+    },
+    {
+      'name': 'four',
+      'model': ''
+    },
+    {
+      'name': 'five',
+      'model': ''
+    },
+    {
+      'name': 'six',
+      'model': ''
+    }
+  ];
+  loginSteps: number = 1;
   userData: any = { mobileno: '' };
   constructor(private socialAuthService: AuthService, public navCtrl: NavController, private userService: UserService) { }
 
@@ -24,12 +49,42 @@ export class LoginPage implements OnInit {
 
   }
 
+  verifyOTP(data) {
+    let otp = "";
+    this.otpData.forEach(element => {
+      otp += element.model;
+    });
+    let apiData = {
+      mobileno: localStorage.getItem('mobileno'),
+      password: otp
+    };
+    this.userService.checkOTP(apiData).subscribe((res: any) => {
+      console.log("respo", res);
+      if (res.value) {
+        localStorage.setItem("userData", JSON.stringify(res.data));
+        isShowHeader.emit(true);
+        this.navCtrl.navigateRoot('/home');
+      } else {
+        console.log("invalid OTP");
+        this.otpData.forEach(element => {
+          element.model = "";
+        });
+      }
+    });
+  }
+
+  back() {
+    this.otpData.forEach(element => {
+      element.model = "";
+    });
+    this.loginSteps = 1;
+  }
   login(userData) {
     this.userService.createUser(userData).subscribe((res: any) => {
       if (res.value) {
         console.log("respo", res);
         this.loginSteps++;
-        // localStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("mobileno", userData.mobileno);
         // isShowHeader.emit(true);
         // this.navCtrl.navigateRoot('/home');
       }
@@ -50,6 +105,24 @@ export class LoginPage implements OnInit {
         this.navCtrl.navigateRoot('/home');
       }
     );
+  }
+
+  nextTextBox(data, index) {
+    if (data.length == 1) {
+      if (index < 5) {
+        document.getElementById(index + 1).focus();
+      }
+    }
+  }
+
+  onlyNumbers(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    // console.log(inputChar, e.charCode);
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
   }
 
 }

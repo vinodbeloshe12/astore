@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { isShowHeader } from './app.constants';
+import { CartService } from './services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -17,14 +18,15 @@ export class AppComponent {
   menuImg = "assets/img/menu.png";
   selectedMenu = "home";
   showHeader: boolean = false;
-
+  cartCount: number = 0;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private cartService: CartService
   ) {
     this.initializeApp();
     if (!localStorage.getItem('userData')) {
@@ -37,6 +39,17 @@ export class AppComponent {
       this.isMenuOpen = false;
       this.menuImg = "assets/img/menu.png";
     })
+
+    this.getCart();
+    //get cart count
+    this.cartService.cartCount.subscribe((data: any) => {
+      if (data) {
+        this.cartCount = data;
+      } else {
+        this.cartCount = 0;
+      }
+    })
+
   }
 
   initializeApp() {
@@ -62,5 +75,18 @@ export class AppComponent {
     this.navCtrl.navigateRoot('/' + val);
     // this.router.navigate['/' + val];
     this.selectedMenu = val;
+  }
+
+
+  getCart() {
+    let cartApiData = {
+      language: 'ma',
+      user_id: JSON.parse(localStorage.getItem("userData")).id
+    }
+    this.cartService.getCart(cartApiData).subscribe((res: any) => {
+      if (res.value) {
+        this.cartService.cartCount.emit(res.TotalItemsInCart);
+      }
+    })
   }
 }

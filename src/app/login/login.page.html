@@ -1,38 +1,13 @@
 <ion-content>
   <div class="row no-gutters vh-100 proh bg-template bg-templatelogin">
+    <div *ngIf="loginSteps!=1" class="col-auto" style="position: absolute;z-index: 9;">
+      <a (click)="back()" class="btn  btn-link text-dark"><i class="material-icons">navigate_before</i></a>
+    </div>
     <!-- <img src="img/apple.png" alt="logo" class="apple right-image align-self-center"> -->
     <div class="col align-self-center px-3 text-center loginbox">
       <img src="assets/img/logo.png" alt="logo" class="logo-small">
 
       <h5 class="p-2"><span class="font-weight-light">Sign </span>In </h5>
-
-
-
-      <div class="form-signin otp2" *ngIf="loginSteps!=1">
-        <p>
-          Please check your SMS.
-          We just sent a verification code on your phone <br>
-        </p>
-        <div class="row">
-          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp1" [(ngModel)]="otpData.one"
-            class="form-control col-1" required autofocus>
-          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp2" [(ngModel)]="otpData.two"
-            class="form-control col-1" required autofocus>
-          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp3" [(ngModel)]="otpData.three"
-            class="form-control col-1" required autofocus>
-          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp4" [(ngModel)]="otpData.four"
-            class="form-control col-1" required autofocus>
-          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp5" [(ngModel)]="otpData.five"
-            class="form-control col-1" required autofocus>
-          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp6" [(ngModel)]="otpData.six"
-            class="form-control col-1" required autofocus>
-        </div>
-
-        <p class="p-3`">Didn't get a code? <span>Try Again</span> </p>
-        <button [disabled]="!loginForm.form.valid" type="Sumbit"
-          class="btn btn-lg btn-default btn-rounded shadow"><span>VERIFY</span><i
-            class="material-icons">arrow_forward</i></button>
-      </div>
 
       <div class="form-signin" *ngIf="loginSteps==1">
         <form #loginForm="ngForm" (ngSubmit)="login(userData)">
@@ -43,9 +18,20 @@
         </p> -->
 
           <div class="form-group float-label" [ngClass]="userData.mobileno.length>0?'active':''">
-            <input type="text" id="inputEmail" autocomplete="off" name="mobileno" [(ngModel)]="userData.mobileno"
+            <input type="text" id="inputEmail" maxlength="10" #sphone="ngModel" minlength="10"
+              (keypress)="onlyNumbers($event)" autocomplete="off" name="mobileno" [(ngModel)]="userData.mobileno"
               class="form-control" required autofocus>
             <label for="inputEmail" class="form-control-label">Mobile Number</label>
+
+            <div *ngIf="sphone.invalid && (sphone.dirty || sphone.touched)" class="alert">
+              <div class="error" *ngIf="sphone.errors.required">
+                Mobile Number is required.
+              </div>
+              <!-- <div *ngIf="sphone.errors.minlength">
+                Mobile Number must be at least 10 characters long.
+              </div> -->
+
+            </div>
           </div>
           <!-- <div class="form-group float-label" [ngClass]="userData.email.length>0?'active':''">
           <input type="email" id="inputEmail" name="email" [(ngModel)]="userData.email" class="form-control" required
@@ -78,6 +64,27 @@
             <a href="forgot-password.html">Forgot Password?</a>
           </div> -->
           </div>
+        </form>
+      </div>
+
+
+      <div class="form-signin otp2" *ngIf="loginSteps!=1">
+        <form #otpForm="ngForm" (ngSubmit)="verifyOTP(otpData)">
+
+          <p>
+            Please check your SMS.
+            We just sent a verification code on your phone <br>
+          </p>
+          <div class="row">
+            <input *ngFor="let data of otpData; let i=index" type="text" id="{{i}}"
+              (ngModelChange)="nextTextBox($event,i)" (keypress)="onlyNumbers($event)" autocomplete="off" maxlength="1"
+              name="{{data.name}}" [(ngModel)]="data.model" class="form-control col-1" required
+              [autofocus]="data.autofocus">
+          </div>
+          <p class="p-3 resend">Didn't get a code? <span>Try Again</span> </p>
+          <button [disabled]="!otpForm.form.valid" type="Sumbit"
+            class="btn btn-lg btn-default btn-rounded shadow"><span>VERIFY</span><i
+              class="material-icons">arrow_forward</i></button>
         </form>
       </div>
 

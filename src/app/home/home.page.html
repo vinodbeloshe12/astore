@@ -3,28 +3,71 @@
     <div class="container">
       <input type="text" class="form-control form-control-lg search my-3" placeholder="शोधा">
 
-      <!-- <h6 class="subtitle">Categories</h6>
-      <div class="row">
-         -->
 
-      <h6 class="subtitle">साहित्य <a href="all-products.html" class="float-right small">View All</a></h6>
-      <div class="row">
-        <div *ngFor="let data of products" class="col-6 col-md-4 col-lg-3 col-xl-2">
-          <div class="card shadow-sm border-0 mb-4">
-            <div class="card-body">
-              <button class="btn btn-sm btn-link p-0"><i class="material-icons md-18">favorite_outline</i></button>
-              <!-- <div class="badge badge-success float-right mt-1">10% off</div> -->
-              <figure class="product-image"><img src="{{imageUrl}}{{data.image}}" alt="" class=""></figure>
-              <a href="product-details.html" class="text-dark mb-1 mt-2 h6 d-block">{{data.name_marathi}} </a>
-              <!-- <p class="text-secondary small mb-2">Imported from Simla</p> -->
-              <h5 class="text-success font-weight-normal mb-0">{{data.price | currency:"₹"}}</h5>
-              <!-- <h5 class="text-success font-weight-normal mb-0">{{data.price}}<sup>.00</sup></h5> -->
-              <p class="text-secondary small text-mute mb-0">{{data.price_per}} {{data.unit_marathi}}</p>
-              <button class="btn btn-default button-rounded-36 shadow-sm float-bottom-right"><i
-                  class="material-icons md-18">shopping_cart</i></button>
-            </div>
+
+      <div class="subtitle h6 mb-4">
+        <div class="d-inline-block">
+          साहित्य<br>
+          <p class="small text-mute">2154 उत्पादने</p>
+        </div>
+        <div class="float-right">
+          <div class="btn-group" role="group" aria-label="View type">
+            <a class="btn btn-light" (click)="viewType='grid'" [ngClass]="viewType=='grid'?'active':''"><i
+                class="material-icons">view_module</i></a>
+            <a class="btn btn-light" (click)="viewType='list'" [ngClass]="viewType=='list'?'active':''"><i
+                class="material-icons">view_list</i></a>
           </div>
         </div>
+      </div>
+
+      <!-- grid view -->
+      <div class="row">
+        <ng-container *ngIf="viewType=='grid'">
+          <div *ngFor="let data of products" class="col-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="card shadow-sm border-0 mb-4">
+              <div class="card-body">
+                <button class="btn btn-sm btn-link p-0"><i class="material-icons md-18">favorite_outline</i></button>
+                <div class="badge badge-success float-right mt-1">{{data.discount}}% off</div>
+                <figure class="product-image"><img src="{{imageUrl}}{{data.image}}" alt="" class=""></figure>
+                <a href="product-details.html" class="text-dark mb-1 mt-2 h6 d-block">{{data.name}} </a>
+                <!-- <p class="text-secondary small mb-2">Imported from Simla</p> -->
+                <h5 class="text-success font-weight-normal mb-0">{{data.price | currency:"₹"}}</h5>
+                <!-- <h5 class="text-success font-weight-normal mb-0">{{data.price}}<sup>.00</sup></h5> -->
+                <p class="text-secondary small text-mute mb-0">{{data.price_per}} {{data.unit}}</p>
+                <button (click)="addToCart(data)"
+                  class="btn btn-default button-rounded-36 shadow-sm float-bottom-right"><i
+                    class="material-icons md-18">shopping_cart</i></button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- list view -->
+        <ng-container *ngIf="viewType=='list'">
+          <div *ngFor="let data of products" class="col-12 col-lg-6">
+            <div class="card shadow-sm border-0 mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-3 col-md-2 col-lg-2 align-self-center">
+                    <figure class="product-image"><img src="{{imageUrl}}{{data.image}}" alt="" class=""></figure>
+                  </div>
+                  <div class="col">
+                    <button class="btn btn-sm btn-link p-0 float-right"><i
+                        class="material-icons md-18">favorite_outline</i></button>
+                    <a href="product-details.html" class="text-dark mb-1 h6 d-block">{{data.name}}</a>
+                    <!-- <p class="text-secondary small mb-2">Imported from Simla</p> -->
+                    <h5 class="text-success font-weight-normal mb-0">{{data.price | currency:"₹"}}
+                      <span class="badge badge-success d-inline-block ml-2"><small>{{data.discount}}% off</small></span>
+                    </h5>
+                    <p class="text-secondary small text-mute mb-0">{{data.price_per}} {{data.unit}}</p>
+                  </div>
+                </div>
+                <button class="btn btn-default button-rounded-36 shadow-sm float-bottom-right"><i
+                    class="material-icons md-18">shopping_cart</i></button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
 
       </div>
     </div>

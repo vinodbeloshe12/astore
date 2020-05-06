@@ -37,7 +37,7 @@
               <a (click)="changeRoute('cart')" [ngClass]="selectedMenu=='cart'?'active':''"
                 class="btn btn-default shadow centerbutton">
                 <i class="material-icons">local_mall</i>
-                <span class="cart_counter">2</span>
+                <span class="cart_counter">{{cartCount}}</span>
               </a>
             </div>
             <div class="col-auto">

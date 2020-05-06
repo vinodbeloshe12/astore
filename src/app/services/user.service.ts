@@ -13,4 +13,8 @@ export class UserService {
     return this.http.post(apiUrl + 'registerUser', JSON.stringify(data));
   }
 
+  checkOTP(data) {
+    return this.http.post(apiUrl + 'checkOTP', JSON.stringify(data));
+  }
+
 }

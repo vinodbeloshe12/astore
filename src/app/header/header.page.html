@@ -13,7 +13,7 @@
 <div class="sidebar" (click)="openMenu()">
   <div class="text-center">
     <div class="figure-menu shadow">
-      <figure><img src="{{userData.image}}" alt=""></figure>
+      <figure><img src="{{userData?.image?userData.image:'assets/img/user1.png'}}" alt=""></figure>
     </div>
     <h5 class="mb-1 ">{{userData.name}}</h5>
     <p class="text-mute small">{{userData.mobile?userData.mobile:userData.email}}</p>
