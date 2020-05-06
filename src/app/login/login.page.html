@@ -1,44 +1,87 @@
 <ion-content>
   <div class="row no-gutters vh-100 proh bg-template bg-templatelogin">
     <!-- <img src="img/apple.png" alt="logo" class="apple right-image align-self-center"> -->
-    <div class="col align-self-center px-3 text-center">
+    <div class="col align-self-center px-3 text-center loginbox">
       <img src="assets/img/logo.png" alt="logo" class="logo-small">
-      <h2><span class="font-weight-light">Sign</span>In</h2>
-      <form class="form-signin shadow">
-        <p class="text-center text-white">
+
+      <h5 class="p-2"><span class="font-weight-light">Sign </span>In </h5>
+
+
+
+      <div class="form-signin otp2" *ngIf="loginSteps!=1">
+        <p>
+          Please check your SMS.
+          We just sent a verification code on your phone <br>
+        </p>
+        <div class="row">
+          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp1" [(ngModel)]="otpData.one"
+            class="form-control col-1" required autofocus>
+          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp2" [(ngModel)]="otpData.two"
+            class="form-control col-1" required autofocus>
+          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp3" [(ngModel)]="otpData.three"
+            class="form-control col-1" required autofocus>
+          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp4" [(ngModel)]="otpData.four"
+            class="form-control col-1" required autofocus>
+          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp5" [(ngModel)]="otpData.five"
+            class="form-control col-1" required autofocus>
+          <input type="text" id="inputEmail" autocomplete="off" maxlength="1" name="otp6" [(ngModel)]="otpData.six"
+            class="form-control col-1" required autofocus>
+        </div>
+
+        <p class="p-3`">Didn't get a code? <span>Try Again</span> </p>
+        <button [disabled]="!loginForm.form.valid" type="Sumbit"
+          class="btn btn-lg btn-default btn-rounded shadow"><span>VERIFY</span><i
+            class="material-icons">arrow_forward</i></button>
+      </div>
+
+      <div class="form-signin" *ngIf="loginSteps==1">
+        <form #loginForm="ngForm" (ngSubmit)="login(userData)">
+          <!-- <p class="text-center text-white">
           <a (click)="socialSignIn('facebook')" class="fb btn">
             <img src="assets/img/facebook.png" alt=""> Sign in with Facebook
           </a>
-        </p>
-        <div class="form-group float-label">
-          <input type="email" id="inputEmail" class="form-control" required autofocus>
+        </p> -->
+
+          <div class="form-group float-label" [ngClass]="userData.mobileno.length>0?'active':''">
+            <input type="text" id="inputEmail" autocomplete="off" name="mobileno" [(ngModel)]="userData.mobileno"
+              class="form-control" required autofocus>
+            <label for="inputEmail" class="form-control-label">Mobile Number</label>
+          </div>
+          <!-- <div class="form-group float-label" [ngClass]="userData.email.length>0?'active':''">
+          <input type="email" id="inputEmail" name="email" [(ngModel)]="userData.email" class="form-control" required
+            autofocus>
           <label for="inputEmail" class="form-control-label">Email address</label>
         </div>
 
-        <div class="form-group float-label">
-          <input type="password" id="inputPassword" class="form-control" required>
+        <div class="form-group float-label" [ngClass]="userData.password.length>0?'active':''">
+          <input type="password" name="password" [(ngModel)]="userData.password" id="inputPassword" class="form-control"
+            required>
           <label for="inputPassword" class="form-control-label">Password</label>
-        </div>
+        </div> -->
 
-        <div class="form-group my-4 text-left">
+          <!-- <div class="form-group my-4 text-left">
           <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="rememberme">
             <label class="custom-control-label" for="rememberme">Remember Me</label>
           </div>
-        </div>
+        </div> -->
 
-        <div class="row">
-          <div class="col-auto">
-            <a href="index.html" class="btn btn-lg btn-default btn-rounded shadow"><span>Sign in</span><i
-                class="material-icons">arrow_forward</i></a>
-          </div>
-          <div class="col align-self-center text-right pl-0">
+          <div class="row">
+            <div class="col-12">
+              <button [disabled]="!loginForm.form.valid" type="Sumbit"
+                class="btn btn-lg btn-default btn-rounded shadow"><span>CONTINUE</span><i
+                  class="material-icons">arrow_forward</i></button>
+              <!-- <a [disabled]="!contactForm.form.valid" class="btn btn-lg btn-default btn-rounded shadow"><span>Sign in</span><i
+                class="material-icons">arrow_forward</i></a> -->
+            </div>
+            <!-- <div class="col align-self-center text-right pl-0">
             <a href="forgot-password.html">Forgot Password?</a>
+          </div> -->
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
+
 
     </div>
   </div>
-
 </ion-content>

@@ -19,3 +19,28 @@
     background-color: #3B5998;
     color: white;
 }
+
+.bg-templatelogin:before {
+    content: '';
+    height: 100vh;
+    width: 100%;
+    background: #ffffff9c;
+    z-index: 1;
+    position: absolute;
+}
+
+.form-signin {
+    background-color: transparent;
+}
+
+.loginbox {
+    z-index: 2 !important;
+}
+
+.form-signin.otp2 input {
+    margin: 0 10px;
+    min-width: 30px;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid;
+}

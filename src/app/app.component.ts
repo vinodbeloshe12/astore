@@ -34,6 +34,8 @@ export class AppComponent {
     }
     isShowHeader.subscribe((value) => {
       this.showHeader = value;
+      this.isMenuOpen = false;
+      this.menuImg = "assets/img/menu.png";
     })
   }
 

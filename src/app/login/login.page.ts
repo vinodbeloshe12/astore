@@ -6,6 +6,7 @@ import {
 } from 'angular-6-social-login';
 import { NavController } from '@ionic/angular';
 import { isShowHeader } from '../app.constants';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -14,11 +15,26 @@ import { isShowHeader } from '../app.constants';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  otpData: any = {};
+  loginSteps: number = 2;
+  userData: any = { mobileno: '' };
+  constructor(private socialAuthService: AuthService, public navCtrl: NavController, private userService: UserService) { }
 
-  constructor(private socialAuthService: AuthService, public navCtrl: NavController) { }
+  ngOnInit() {
 
-  ngOnInit() { }
+  }
 
+  login(userData) {
+    this.userService.createUser(userData).subscribe((res: any) => {
+      if (res.value) {
+        console.log("respo", res);
+        this.loginSteps++;
+        // localStorage.setItem("userData", JSON.stringify(userData));
+        // isShowHeader.emit(true);
+        // this.navCtrl.navigateRoot('/home');
+      }
+    }, err => console.log(err));
+  }
   public socialSignIn(socialPlatform: string) {
     let socialPlatformProvider;
     if (socialPlatform == "facebook") {

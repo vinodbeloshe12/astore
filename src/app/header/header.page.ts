@@ -18,11 +18,8 @@ export class HeaderPage implements OnInit {
 
   openMenu() {
     this.isMenuOpen = false;
-    if (this.isMenuOpen) {
-      document.body.classList.add('sidemenu-open', 'menuactive');
-    } else {
-      document.body.classList.remove('sidemenu-open', 'menuactive');
-    }
+    document.body.classList.remove('sidemenu-open', 'menuactive');
+    isShowHeader.emit(true);
   }
 
   logout() {

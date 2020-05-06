@@ -482,6 +482,7 @@ select.form-control optgroup {
 }
 
 .float-label .form-control-label {
+    z-index: 2;
     position: absolute;
     left: 0;
     top: 24px;
@@ -1876,7 +1877,7 @@ pre {
 }
 
 .bg-templatelogin {
-    background-color: #f7eef2 !important;
+    background-color: #fff !important;
     background-image: url("../assets/img/bg.png");
     background-repeat: repeat;
     background-size: 45%;

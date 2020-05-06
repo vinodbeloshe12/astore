@@ -8,6 +8,9 @@ import { CartPageRoutingModule } from './cart-routing.module';
 
 import { CartPage } from './cart.page';
 
+
+
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +18,8 @@ import { CartPage } from './cart.page';
     IonicModule,
     CartPageRoutingModule
   ],
+  providers: [
+    SocialSharing],
   declarations: [CartPage]
 })
-export class CartPageModule {}
+export class CartPageModule { }
