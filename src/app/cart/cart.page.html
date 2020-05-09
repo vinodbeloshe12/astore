@@ -4,7 +4,7 @@
       <div class="subtitle h6">
         <div class="d-inline-block">
           My Cart<br>
-          <p class="small text-mute">{{cartItems}} {{cartItems==1?'Item':'Items'}}</p>
+          <p class="small text-mute">{{cartItems?cartItems:0}} {{cartItems==1?'Item':'Items'}}</p>
         </div>
       </div>
 
@@ -14,7 +14,7 @@
             <li *ngFor="let data of cartData" class="list-group-item">
               <div class="row">
                 <div class="col-auto align-self-center">
-                  <button (click)="remove(data)" class="btn btn-sm btn-link p-0 float-right"><i
+                  <button (click)="remove(data,0)" class="btn btn-sm btn-link p-0 float-right"><i
                       class="material-icons">remove_circle</i></button>
                 </div>
                 <div class="col-2 pl-0 align-self-center">
@@ -28,15 +28,20 @@
                       class=" text-success ml-2">{{data.discount}}% off</span>
                   </p>
                 </div>
+
+
+
+
                 <div class="col-auto align-self-center">
                   <div class="input-group input-group-sm">
                     <div class="input-group-prepend">
-                      <button class="btn btn-light-grey px-1" type="button"><i
+                      <button (click)="remove(data,1)" class="btn btn-light-grey px-1" type="button"><i
                           class="material-icons">remove</i></button>
                     </div>
                     <input type="text" class="form-control w-35" placeholder="" [(ngModel)]="data.quantity">
                     <div class="input-group-append">
-                      <button class="btn btn-light-grey px-1" type="button"><i class="material-icons">add</i></button>
+                      <button (click)="addToCart(data)" class="btn btn-light-grey px-2" type="button"><i
+                          class="material-icons">add</i></button>
                     </div>
                   </div>
                 </div>
@@ -47,7 +52,7 @@
 
           <ul class="list-group list-group-flush mb-4 text-center" *ngIf="cartData && cartData.length==0">
             <li class="list-group-item p-3">
-              Your cart is empty.
+              {{cartMessage}}
             </li>
           </ul>
         </div>

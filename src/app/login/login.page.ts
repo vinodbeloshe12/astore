@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { isShowHeader } from '../app.constants';
 import { UserService } from '../services/user.service';
+import { isShowNotification } from '../app.constants';
 
 
 @Component({
@@ -66,6 +67,7 @@ export class LoginPage implements OnInit {
         this.navCtrl.navigateRoot('/home');
       } else {
         console.log("invalid OTP");
+        isShowNotification.emit('invalid OTP');
         this.otpData.forEach(element => {
           element.model = "";
         });

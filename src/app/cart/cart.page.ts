@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+// import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { CartService } from '../services/cart.service';
-import { imgUrl } from '../app.constants';
+import { imgUrl, isShowNotification } from '../app.constants';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.page.html',
@@ -11,13 +11,16 @@ import { imgUrl } from '../app.constants';
 
 export class CartPage implements OnInit {
   cartData: any = [];
+  cartMessage: any;
   cartItems: number = 0;
   imageUrl = imgUrl;
   cartTotal: any = 0;
   deliveryCharge: any = 0;
   netAmount: any = 0;
 
-  constructor(private socialSharing: SocialSharing, private cartService: CartService) { }
+  constructor(
+    // private socialSharing: SocialSharing,
+    private cartService: CartService) { }
 
   ngOnInit() {
     this.getCart();
@@ -32,6 +35,7 @@ export class CartPage implements OnInit {
     }
     this.cartService.getCart(cartApiData).subscribe((res: any) => {
       if (res.value) {
+        this.cartMessage = res.message;
         this.cartData = res.data;
         this.cartData.forEach(cartItem => {
           this.cartTotal = this.cartTotal + (cartItem.price * cartItem.quantity);
@@ -47,12 +51,29 @@ export class CartPage implements OnInit {
     })
   }
 
+  //add to cart
+  addToCart(data) {
+    let cartApiData = {
+      user_id: JSON.parse(localStorage.getItem("userData")).id,
+      quantity: 1,
+      product_id: data.product_id
+    }
+    this.cartService.addToCart(cartApiData).subscribe((res: any) => {
+      if (res.value) {
+        this.getCart();
+        // isShowNotification.emit(res.message + data.name);
+        this.cartService.cartCount.emit(res.TotalItemsInCart);
+      }
+    })
+  }
+
   //remove cart item
-  remove(data) {
+  remove(data, row) {
     console.log("remove", data);
     let cartApiData = {
       user_id: JSON.parse(localStorage.getItem("userData")).id,
-      id: data.product_id
+      id: data.product_id,
+      row: row
     }
     this.cartService.deleteCart(cartApiData).subscribe((res: any) => {
       if (res.value) {
@@ -65,12 +86,19 @@ export class CartPage implements OnInit {
 
   // Share Via WhatsApp
   shareViaWhatsapp() {
-    this.socialSharing.shareViaWhatsApp('शेंगदाणे 1 KG - ₹ 140.00\nतूर डाळ 1 KG - ₹94.00', null, 'https://google.com/')
-      .then(() => {
-        console.log('It works');
-      }).catch(() => {
-        alert('WhatsApp not available')
-      });
+    let productList = "";
+    let i = 0;
+    this.cartData.forEach(element => {
+      i++;
+      productList += i + ") " + element.name + " " + element.quantity + " " + element.unit + "\n"
+    });
+    console.log("product list", productList)
+    // this.socialSharing.shareViaWhatsApp(productList, null, 'http://www.findacross.com/')
+    //   .then(() => {
+    //     console.log('It works');
+    //   }).catch(() => {
+    //     alert('WhatsApp not available')
+    //   });
   }
 
 }

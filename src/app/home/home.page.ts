@@ -48,7 +48,6 @@ export class HomePage {
     }
     this.cartService.addToCart(cartApiData).subscribe((res: any) => {
       if (res.value) {
-        console.log("product added to the cart");
         isShowNotification.emit(res.message + data.name);
         this.cartService.cartCount.emit(res.TotalItemsInCart);
       }

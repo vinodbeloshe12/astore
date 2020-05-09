@@ -30,32 +30,32 @@
       <p class="text-center text-secondary mb-0">Pay with</p>
 
       <div class="btn-group mt-4 w-100" role="group" aria-label="Basic example">
-        <a href="checkout.html" class="btn btn-light active">Cash on Delivery</a>
-        <a href="#" class="btn btn-light">PayPal</a>
+        <a class="btn btn-light active">Cash on Delivery</a>
+        <a (click)="payViaUPI()" class="btn btn-light">PAY VIA UPI</a>
       </div>
 
       <h6 class="subtitle">Shipping Information</h6>
-      <div class="form-group float-label active">
-        <input type="text" class="form-control" required="" [(ngModel)]="userData.name" name="address">
+      <div class="form-group float-label" [ngClass]="userData.name.length>0?'active':''">
+        <input type="text" class="form-control" required [(ngModel)]="userData.name" name="address">
         <label class="form-control-label">Name</label>
       </div>
-      <div class="form-group float-label active">
-        <input type="text" class="form-control card-type" required="" [(ngModel)]="userData.email">
+      <div class="form-group float-label" [ngClass]="userData.email.length>0?'active':''">
+        <input type="text" class="form-control card-type" required [(ngModel)]="userData.email">
+        <label class="form-control-label">Email Id</label>
+      </div>
+      <div class="form-group float-label" [ngClass]="userData.phone.length>0?'active':''">
+        <input type="text" maxlength="10" #sphone="ngModel" minlength="10" (keypress)="onlyNumbers($event)"
+          autocomplete="off" class="form-control card-type" required [(ngModel)]="userData.phone">
         <label class="form-control-label">Mobile Number</label>
       </div>
-      <div class="form-group float-label active">
-        <input type="text" class="form-control card-type" required="" [(ngModel)]="userData.phone">
-        <label class="form-control-label">Mobile Number</label>
-      </div>
-      <div class="form-group float-label active">
-        <input type="text" class="form-control card-type" required="" [(ngModel)]="userAdress.thoroughfare"
-          name="address">
+      <div class="form-group float-label" [ngClass]="userData.address.length>0?'active':''">
+        <input type="text" class="form-control card-type" required [(ngModel)]="userData.address" name="address">
         <label class="form-control-label">Address</label>
       </div>
       <div class="row">
         <div class="col-6">
           <div class="form-group float-label active">
-            <input type="text" class="form-control" required="" [(ngModel)]="userAdress.subLocality" name="landmark">
+            <input type="text" class="form-control" required [(ngModel)]="userData.subLocality" name="landmark">
             <label class="form-control-label">Landmark</label>
           </div>
         </div>
@@ -63,14 +63,13 @@
           <div class="row">
             <div class="col">
               <div class="form-group float-label active">
-                <input type="text" [(ngModel)]="userAdress.locality" class="form-control" required="" name="city">
+                <input type="text" [(ngModel)]="userData.locality" class="form-control" required name="city">
                 <label class="form-control-label">City</label>
               </div>
             </div>
             <div class="col">
               <div class="form-group float-label active">
-                <input type="text" class="form-control" [(ngModel)]="userAdress.postalCode" required=""
-                  name="postal_code">
+                <input type="text" class="form-control" [(ngModel)]="userData.postalCode" required name="postal_code">
                 <label class="form-control-label">Zip Code</label>
               </div>
             </div>

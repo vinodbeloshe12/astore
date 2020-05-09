@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 // import { Geolocation } from '@ionic-native/geolocation/ngx';
 // import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { CartService } from '../services/cart.service';
-
+import { WebIntent } from '@ionic-native/web-intent/ngx';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.page.html',
   styleUrls: ['./checkout.page.scss'],
 })
+
+
 export class CheckoutPage implements OnInit {
   userAdress: any = {};
   userData = JSON.parse(localStorage.getItem('userData'));
@@ -18,12 +20,26 @@ export class CheckoutPage implements OnInit {
   deliveryCharge: any = 0;
   netAmount: any = 0;
   constructor(
-    private cartService: CartService
+    private cartService: CartService,
+    private webIntent: WebIntent
   ) { }
+
 
   ngOnInit() {
     // this.getLocation();
     this.getCart();
+  }
+
+  payViaUPI() {
+    const options = {
+      action: this.webIntent.ACTION_VIEW,
+      url: 'upi://pay?pa=8082495670@ybl&pn=vinodbeloshe&tid=testtrn&am=1&cu=INR&tn=Astorepayment'
+    }
+    this.webIntent.startActivity(options).then((onSuccess) => {
+      console.log("payment done", onSuccess);
+    }, (onError) => {
+      console.log("payment failed", onError);
+    })
   }
 
   // getLocation() {
@@ -69,6 +85,16 @@ export class CheckoutPage implements OnInit {
         }
       }
     })
+  }
+
+  onlyNumbers(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    // console.log(inputChar, e.charCode);
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
   }
 
 
