@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProductService } from '../services/product.service';
-import { imgUrl } from '../app.constants';
+import { imgUrl, isShowNotification } from '../app.constants';
 import { CartService } from '../services/cart.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class HomePage {
 
   ngOnInit() {
     this.getAllProducts();
+    this.getCart();
   }
   getAllProducts() {
     this.productService.getAllProducts().subscribe((res: any) => {
@@ -25,6 +26,19 @@ export class HomePage {
       }
     })
   }
+
+  getCart() {
+    let cartApiData = {
+      language: 'ma',
+      user_id: JSON.parse(localStorage.getItem("userData")).id
+    }
+    this.cartService.getCart(cartApiData).subscribe((res: any) => {
+      if (res.value) {
+        this.cartService.cartCount.emit(res.TotalItemsInCart);
+      }
+    })
+  }
+
 
   addToCart(data) {
     let cartApiData = {
@@ -35,6 +49,7 @@ export class HomePage {
     this.cartService.addToCart(cartApiData).subscribe((res: any) => {
       if (res.value) {
         console.log("product added to the cart");
+        isShowNotification.emit(res.message + data.name);
         this.cartService.cartCount.emit(res.TotalItemsInCart);
       }
     })

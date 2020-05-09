@@ -8,30 +8,30 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-} from "angular-6-social-login";
+// import {
+//   SocialLoginModule,
+//   AuthServiceConfig,
+//   GoogleLoginProvider,
+//   FacebookLoginProvider,
+// } from "angular-6-social-login";
 
 
-// Configs 
-export function getAuthServiceConfigs() {
-  let config = new AuthServiceConfig(
-    [
-      {
-        id: FacebookLoginProvider.PROVIDER_ID,
-        provider: new FacebookLoginProvider("219742459444672")
-      },
-      {
-        id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider("Your-Google-Client-Id")
-      }
-    ]
-  );
-  return config;
-}
+// // Configs 
+// export function getAuthServiceConfigs() {
+//   let config = new AuthServiceConfig(
+//     [
+//       {
+//         id: FacebookLoginProvider.PROVIDER_ID,
+//         provider: new FacebookLoginProvider("219742459444672")
+//       },
+//       {
+//         id: GoogleLoginProvider.PROVIDER_ID,
+//         provider: new GoogleLoginProvider("Your-Google-Client-Id")
+//       }
+//     ]
+//   );
+//   return config;
+// }
 
 
 @NgModule({
@@ -39,14 +39,9 @@ export function getAuthServiceConfigs() {
     CommonModule,
     FormsModule,
     IonicModule,
-    LoginPageRoutingModule,
-    SocialLoginModule
+    LoginPageRoutingModule
   ],
   providers: [
-    {
-      provide: AuthServiceConfig,
-      useFactory: getAuthServiceConfigs
-    }
   ],
   declarations: [LoginPage]
 })

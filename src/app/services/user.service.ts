@@ -9,6 +9,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+
   createUser(data) {
     return this.http.post(apiUrl + 'registerUser', JSON.stringify(data));
   }

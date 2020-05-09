@@ -27,3 +27,89 @@
 @import "assets/style.css";
 @import "assets/css/bootstrap.min.css";
 @import "assets/css/material-icons.css";
+
+/** ng-progress page-loader style ----------------- **/
+ng-progress[fixed=true][spinnerPosition=right] {
+
+    .ng-progress-bar {
+        border: 0 !important;
+        box-shadow: 0 0 0 0 !important;
+
+        &.-active {
+            pointer-events: visible !important;
+        }
+
+        &:before {
+            content: "";
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            right: 0;
+            z-index: 99999;
+            background: rgba(255, 255, 255, 0.85);
+            bottom: 0;
+        }
+
+        .ng-bar-placeholder {
+            height: 0px !important;
+            width: 0px !important;
+            display: none !important;
+            opacity: 0;
+            visibility: hidden;
+
+            .ng-bar {
+                display: none !important;
+                box-shadow: 0 0 0 0 !important;
+                opacity: 0;
+                height: 0 !important;
+                visibility: hidden;
+
+                .ng-meteor {
+                    opacity: 0;
+                    visibility: hidden;
+                    box-shadow: 0 0 0 !important;
+                }
+            }
+        }
+
+        .ng-spinner {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            right: auto;
+            bottom: auto;
+            z-index: 999999;
+            display: flex;
+            justify-content: center;
+            height: 150px;
+            width: 150px;
+            background-size: auto 100%;
+            border: 0;
+            background-repeat: no-repeat;
+
+            &:after {
+                content: 'Loading, Please Wait ...';
+                position: absolute;
+                top: 150px;
+                left: -30px;
+                color: #FF0068;
+                left: 50%;
+                -webkit-transform: translateX(-50%);
+                transform: translateX(-50%);
+                font-size: 15px;
+                width: 167px;
+            }
+
+            .ng-spinner-icon {
+                width: 0px !important;
+                height: 0px !important;
+                border: 0 !important;
+                box-shadow: 0 0 0 0 !important;
+            }
+        }
+    }
+}

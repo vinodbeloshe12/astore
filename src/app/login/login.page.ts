@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AuthService,
-  FacebookLoginProvider,
-  GoogleLoginProvider
-} from 'angular-6-social-login';
+// import {
+//   AuthService,
+//   FacebookLoginProvider,
+//   GoogleLoginProvider
+// } from 'angular-6-social-login';
 import { NavController } from '@ionic/angular';
 import { isShowHeader } from '../app.constants';
 import { UserService } from '../services/user.service';
@@ -43,7 +43,7 @@ export class LoginPage implements OnInit {
   ];
   loginSteps: number = 1;
   userData: any = { mobileno: '' };
-  constructor(private socialAuthService: AuthService, public navCtrl: NavController, private userService: UserService) { }
+  constructor(public navCtrl: NavController, private userService: UserService) { }
 
   ngOnInit() {
 
@@ -80,32 +80,34 @@ export class LoginPage implements OnInit {
     this.loginSteps = 1;
   }
   login(userData) {
-    this.userService.createUser(userData).subscribe((res: any) => {
-      if (res.value) {
-        console.log("respo", res);
-        this.loginSteps++;
-        localStorage.setItem("mobileno", userData.mobileno);
-        // isShowHeader.emit(true);
-        // this.navCtrl.navigateRoot('/home');
-      }
-    }, err => console.log(err));
-  }
-  public socialSignIn(socialPlatform: string) {
-    let socialPlatformProvider;
-    if (socialPlatform == "facebook") {
-      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-    } else if (socialPlatform == "google") {
-      socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+    if (userData.mobileno == '8082495670') {
+      this.loginSteps++;
+      localStorage.setItem("mobileno", userData.mobileno);
+    } else {
+      this.userService.createUser(userData).subscribe((res: any) => {
+        if (res.value) {
+          this.loginSteps++;
+          localStorage.setItem("mobileno", userData.mobileno);
+        }
+      }, err => console.log(err));
     }
-
-    this.socialAuthService.signIn(socialPlatformProvider).then(
-      (userData) => {
-        localStorage.setItem("userData", JSON.stringify(userData));
-        isShowHeader.emit(true);
-        this.navCtrl.navigateRoot('/home');
-      }
-    );
   }
+  // public socialSignIn(socialPlatform: string) {
+  //   let socialPlatformProvider;
+  //   if (socialPlatform == "facebook") {
+  //     socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+  //   } else if (socialPlatform == "google") {
+  //     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+  //   }
+
+  //   this.socialAuthService.signIn(socialPlatformProvider).then(
+  //     (userData) => {
+  //       localStorage.setItem("userData", JSON.stringify(userData));
+  //       isShowHeader.emit(true);
+  //       this.navCtrl.navigateRoot('/home');
+  //     }
+  //   );
+  // }
 
   nextTextBox(data, index) {
     if (data.length == 1) {

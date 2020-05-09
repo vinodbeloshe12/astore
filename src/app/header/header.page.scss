@@ -31,7 +31,11 @@ ion-content ion-toolbar {
 }
 
 .loader {
-    filter: invert(1);
+    width: 150px;
+}
+
+.loader-screen {
+    background-color: #ffffffb8 !important;
 }
 
 .sidebar {

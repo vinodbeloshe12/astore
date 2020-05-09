@@ -6,10 +6,11 @@ import { apiUrl } from '../app.constants';
   providedIn: 'root'
 })
 export class ProductService {
-
+  language = localStorage.getItem('language') ? JSON.parse(localStorage.getItem('language')) : 'ma';
   constructor(private http: HttpClient) { }
 
   public getAllProducts() {
-    return this.http.get(apiUrl + "getAllProducts");
+    let data = { 'language': this.language };
+    return this.http.post(apiUrl + "getAllProducts", JSON.stringify(data));
   }
 }

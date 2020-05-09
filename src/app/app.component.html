@@ -1,7 +1,7 @@
 <ion-app>
   <app-header *ngIf="showHeader"></app-header>
   <div class="wrapper">
-    <div *ngIf="showHeader" class="header">
+    <div *ngIf="showHeader" id="header" class="header">
       <div class="row no-gutters">
         <div class="col-auto">
           <button (click)="openMenu()" class="btn  btn-link text-dark menu-btn"><img src="{{menuImg}}" alt=""><span
@@ -9,9 +9,20 @@
         </div>
         <div class="col text-center"><img src="assets/img/logo-header.png" alt="" class="header-logo"></div>
         <div class="col-auto">
-          <a class="btn  btn-link text-dark">
+          <!-- <a class="btn  btn-link text-dark">
             <img style="max-width:35px !important" src="assets/img/languages.png" alt="">
-          </a>
+          </a> -->
+          <div class="dropdown" [ngClass]="showLangDropdown?'show':''">
+            <a (click)="openLanguage()" class="btn  btn-link dropdown-toggle text-dark" id="dropdownMenuButton2"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img style="max-width:35px !important" src="assets/img/languages.png" alt="">
+            </a>
+            <div class="dropdown-menu no-arrows" [ngClass]="showLangDropdown?'show':''">
+              <a (click)="changeLanguage('ma')" class="dropdown-item">मराठी</a>
+              <div class="dropdown-divider"></div>
+              <a (click)="changeLanguage('en')" class="dropdown-item">English</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -57,4 +68,28 @@
       </div>
     </div>
   </div>
+
+
+  <!-- notification -->
+  <div class="notification bg-white shadow border-primary" [ngClass]="isNotification?'active':''">
+    <div class="row">
+      <!-- <div class="col-auto align-self-center pr-0">
+              <i class="material-icons text-primary md-36">fullscreen</i>
+          </div> -->
+      <div class="col">
+        <!-- <h6>Viewing in Phone?</h6> -->
+        <p class="mb-0 text-secondary">{{notificationMessage}}</p>
+      </div>
+      <div class="col-auto align-self-center pl-0">
+        <button class="btn btn-link closenotification"><i
+            class="material-icons text-secondary text-mute md-18 ">close</i></button>
+      </div>
+    </div>
+  </div>
+  <!-- notification ends -->
+
+  <ng-progress [positionUsing]="'marginLeft'" [color]="'#ddd'" [min]="8" [max]="100"
+    [direction]="'leftToRightIncreased'" [trickleSpeed]="50000000" [thick]="false" [ease]="'easeInSine'">
+
+  </ng-progress>
 </ion-app>
