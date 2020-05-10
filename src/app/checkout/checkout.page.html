@@ -30,8 +30,12 @@
       <p class="text-center text-secondary mb-0">Pay with</p>
 
       <div class="btn-group mt-4 w-100" role="group" aria-label="Basic example">
-        <a class="btn btn-light active">Cash on Delivery</a>
-        <a (click)="payViaUPI()" class="btn btn-light">PAY VIA UPI</a>
+        <a class="btn btn-light" *ngIf="paymentStatus && paymentStatus.Status!= 'SUCCESS'" (click)="COD()"
+          [ngClass]="paymentMode=='COD'?'active':''">Cash on Delivery</a>
+        <a *ngIf="paymentStatus && paymentStatus.Status!= 'SUCCESS'" [ngClass]="paymentMode!='COD'?'active':''"
+          (click)="payViaUPI()" class="btn btn-light">PAY VIA
+          UPI</a>
+        <a *ngIf="paymentStatus && paymentStatus.Status== 'SUCCESS'" class="btn btn-light success">PAYMENT DONE</a>
       </div>
 
       <h6 class="subtitle">Shipping Information</h6>

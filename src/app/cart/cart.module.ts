@@ -10,7 +10,7 @@ import { CartPage } from './cart.page';
 
 
 
-// import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 @NgModule({
   imports: [
     CommonModule,
@@ -19,8 +19,7 @@ import { CartPage } from './cart.page';
     CartPageRoutingModule
   ],
   providers: [
-    // SocialSharing
-  ],
+    SocialSharing],
   declarations: [CartPage]
 })
 export class CartPageModule { }

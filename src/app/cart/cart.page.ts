@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { CartService } from '../services/cart.service';
 import { imgUrl, isShowNotification } from '../app.constants';
 @Component({
@@ -18,9 +18,7 @@ export class CartPage implements OnInit {
   deliveryCharge: any = 0;
   netAmount: any = 0;
 
-  constructor(
-    // private socialSharing: SocialSharing,
-    private cartService: CartService) { }
+  constructor(private socialSharing: SocialSharing, private cartService: CartService) { }
 
   ngOnInit() {
     this.getCart();
@@ -93,12 +91,12 @@ export class CartPage implements OnInit {
       productList += i + ") " + element.name + " " + element.quantity + " " + element.unit + "\n"
     });
     console.log("product list", productList)
-    // this.socialSharing.shareViaWhatsApp(productList, null, 'http://www.findacross.com/')
-    //   .then(() => {
-    //     console.log('It works');
-    //   }).catch(() => {
-    //     alert('WhatsApp not available')
-    //   });
+    this.socialSharing.shareViaWhatsApp(productList, null, 'http://www.findacross.com/')
+      .then(() => {
+        console.log('It works');
+      }).catch(() => {
+        alert('WhatsApp not available')
+      });
   }
 
 }

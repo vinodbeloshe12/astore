@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 // import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { CartService } from '../services/cart.service';
 import { WebIntent } from '@ionic-native/web-intent/ngx';
+import { isShowNotification } from '../app.constants';
+
 
 @Component({
   selector: 'app-checkout',
@@ -19,6 +21,10 @@ export class CheckoutPage implements OnInit {
   cartTotal: any = 0;
   deliveryCharge: any = 0;
   netAmount: any = 0;
+  paymentMode: string = 'COD';
+  paymentStatus: any = {
+    Status: 'SUCCESS'
+  };
   constructor(
     private cartService: CartService,
     private webIntent: WebIntent
@@ -30,16 +36,41 @@ export class CheckoutPage implements OnInit {
     this.getCart();
   }
 
+  COD() {
+    this.paymentMode = 'COD';
+    this.paymentStatus = {};
+  }
+
   payViaUPI() {
+    this.paymentMode = 'UPI';
     const options = {
       action: this.webIntent.ACTION_VIEW,
-      url: 'upi://pay?pa=8082495670@ybl&pn=vinodbeloshe&tid=testtrn&am=1&cu=INR&tn=Astorepayment'
+      url: 'upi://pay?pa=8082495670@ybl&pn=vinodbeloshe&tid=testtrn&am=2&cu=INR&tn=Astorepayment'
     }
-    this.webIntent.startActivity(options).then((onSuccess) => {
+    this.webIntent.startActivityForResult(options).then((onSuccess) => {
       console.log("payment done", onSuccess);
+      if (onSuccess.extras && onSuccess.extras.Status == "SUCCESS") {
+        console.log("payment done");
+        isShowNotification.emit("Payment done! COntinue to place order.");
+        this.paymentStatus = onSuccess.extras;
+      } else {
+        console.log("payment failed");
+        isShowNotification.emit("Payment failed! Please try again.");
+      }
     }, (onError) => {
       console.log("payment failed", onError);
-    })
+    });
+
+
+
+    // this.webIntent.sendResult({ extras: {} }).then((result) => {
+    //   console.log("sendResult", result);
+    //   if (result.extras && result.extras.Status == "SUCCESS") {
+    //     console.log("payment done");
+    //   } else {
+    //     console.log("payment failed");
+    //   }
+    // }, (err) => console.log("err", err));
   }
 
   // getLocation() {
